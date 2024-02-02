@@ -8,6 +8,9 @@ got sick and tired of...
 ##TODOs
 
 ###front
+- [ ] websocket
+- [ ] create room
+- [ ] join room
 - [x] sort by color
 - [x] sort by number
 - [ ] select by touch/drag
@@ -18,9 +21,10 @@ got sick and tired of...
 - [ ] send draw
 - [ ] google login
 - [ ] responsive for all screen sizes
-- [ ] websocket
 
 ###back
+- [ ] make server
+- [ ] websocket
 - [ ] create room
 - [ ] start game
 - [ ] shuffle deck
@@ -30,5 +34,4 @@ got sick and tired of...
 - [ ] send data to clients
 - [ ] logging games
 - [ ] check game over condition
-- [ ] websocket
 - [ ] timer
