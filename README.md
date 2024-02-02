@@ -8,11 +8,7 @@ got sick and tired of...
 ##TODOs
 
 ###front
-- [ ] websocket
-- [ ] create room
-- [ ] join room
-- [x] sort by color
-- [x] sort by number
+- [ ] disable start button for non-host
 - [ ] select by touch/drag
 - [ ] place by touch
 - [ ] check correctness of board
@@ -23,9 +19,10 @@ got sick and tired of...
 - [ ] responsive for all screen sizes
 
 ###back
-- [ ] make server
-- [ ] websocket
-- [ ] create room
+- [ ] clients needs to be objects
+- [ ] rooms needs to be objects
+- [ ] exit room needs to be better..
+- [ ] room status (joinable, playing)
 - [ ] start game
 - [ ] shuffle deck
 - [ ] distribute cards
@@ -35,3 +32,4 @@ got sick and tired of...
 - [ ] logging games
 - [ ] check game over condition
 - [ ] timer
+- [ ] wss

@@ -13,3 +13,39 @@
 	transition: left 0.2s;
 	background-color: white;
 }
+
+#hand{
+	background-color: wheat;
+	width: 1000px;
+	height: 200px;
+	position: absolute;
+	display: none;
+}
+
+#board{
+	background-color:azure;
+	display: none;
+	width: 1000px;
+	height: 600px;
+}
+
+#rooms{
+	width: 1000px;
+	height: 800px;
+}
+
+.room{
+	width: 996px;
+	height: 46px;
+	line-height: 46px;
+	border: 2px solid gray;
+	padding-left: 20px;
+	user-select: none;
+}
+.room:hover{
+	background-color: #eee;
+}
+
+#exit, #start{
+	display: none;
+}
