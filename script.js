@@ -37,7 +37,6 @@ function getSet(tiles){
 function getRun(tiles){
 	let run = [];
 	let done = [];
-	let runExists = false;
 	for (const t of tiles){
 		if (run.length==0){
 			run.push(t);
@@ -49,17 +48,16 @@ function getRun(tiles){
 		}
 		if (run[run.length-1].num+1 == t.num){
 			run.push(t);
-			if (run.length>=3) runExists = true;
 			continue;
 		}
-		if (runExists){
+		if (run.length>=3){
 			done.push(t);
 	 		continue;	
 		}
 		done = done.concat(run);
 		run = [t];
 	}
-	if (runExists) {
+	if (run.length>=3) {
 		done.sort((a,b) => a.sortValColor-b.sortValColor);
 		return [run,done];
 	}
