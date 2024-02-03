@@ -1,6 +1,7 @@
 const COLORS = ['red', 'blue', 'orange', 'black'];
 const currentLocation = window.location;
 const socket = new WebSocket(`ws://${currentLocation.hostname}:${currentLocation.port}`);
+var myID = null;
 const id_div = document.getElementById('user_id');
 const hand_div = document.getElementById('hand');
 const board_div = document.getElementById('board');
@@ -9,6 +10,7 @@ const refresh_btn = document.getElementById('refresh');
 const exit_btn = document.getElementById('exit');
 const start_btn = document.getElementById('start');
 const rooms_div = document.getElementById('rooms');
+const members_div = document.getElementById('members');
 
 function showRoom(){
 	rooms_div.style.display = 'none';
@@ -18,6 +20,7 @@ function showRoom(){
 	exit_btn.style.display = 'inline-block';
 	hand_div.style.display = 'block';
 	board_div.style.display = 'block';
+	members_div.style.display = 'block';
 }
 
 function showLobby(){
@@ -28,6 +31,21 @@ function showLobby(){
 	exit_btn.style.display = 'none';
 	hand_div.style.display = 'none';
 	board_div.style.display = 'none';
+	members_div.style.display = 'none';
+}
+
+function updateRoom(room){
+	members_div.innerHTML = '';
+	for (const mID of room.mIDs){
+		let member_div = document.createElement('div');
+		member_div.classList.add('member');
+		if (mID == room.hID) member_div.classList.add('host');
+		member_div.innerHTML = UUID2ID(mID);
+		members_div.append(member_div);
+	}
+
+	start_btn.disabled = myID==room.hID?false:true;
+	console.log(room);
 }
 
 function sendMsgToServer(type,data){
@@ -50,6 +68,10 @@ exit_btn.onclick = function(e){
 	sendMsgToServer('requestExit',null);
 }
 
+start_btn.onclick = function(e){
+	sendMsgToServer('requestGameStart',null);
+}
+
 socket.addEventListener('open', (event) => {
 	sendMsgToServer('requestLobbyStatus',null);
 });
@@ -58,8 +80,9 @@ socket.addEventListener('open', (event) => {
 socket.addEventListener('message', (event) => {
 	const message = JSON.parse(event.data);
 	switch(message.type){
-		case 'registerClient':
+		case 'registeredClient':
 			id_div.innerHTML = "ID: "+UUID2ID(message.data);
+			myID = message.data;
 			break;
 		case 'enteredRoom':
 			showRoom();
@@ -67,13 +90,16 @@ socket.addEventListener('message', (event) => {
 		case 'leftRoom':
 			showLobby();
 			break;
+		case 'updateRoom':
+			updateRoom(message.data);
+			break;
 		case 'lobbyStatus':
 			let rooms = new Map(JSON.parse(message.data));
 			rooms_div.innerHTML = '';
-			for (const [hID,mIDs] of rooms){
+			for (const [hID,room] of rooms){
 				let room_div = document.createElement('div');
 				room_div.classList.add('room');
-				room_div.innerHTML = "["+mIDs.length+"/4] "+UUID2ID(hID)+"'s room";
+				room_div.innerHTML = "["+room.mIDs.length+"/4] "+UUID2ID(hID)+"'s room";
 				room_div.hID = hID;
 				room_div.onclick = function(){
 					sendMsgToServer('requestJoinRoom',this.hID);

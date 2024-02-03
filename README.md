@@ -8,7 +8,7 @@ got sick and tired of...
 ##TODOs
 
 ###front
-- [ ] disable start button for non-host
+- [ ] show room status in lobby
 - [ ] select by touch/drag
 - [ ] place by touch
 - [ ] check correctness of board
@@ -17,12 +17,11 @@ got sick and tired of...
 - [ ] send draw
 - [ ] google login
 - [ ] responsive for all screen sizes
+- [ ] sounds
 
 ###back
-- [ ] clients needs to be objects
-- [ ] rooms needs to be objects
-- [ ] exit room needs to be better..
-- [ ] room status (joinable, playing)
+- [ ] change host when old host exists
+- [ ] room status (waiting, playing)
 - [ ] start game
 - [ ] shuffle deck
 - [ ] distribute cards

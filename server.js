@@ -11,70 +11,98 @@ const { v4: uuidv4 } = require('uuid'); // Import the uuid library
 // Serve static files (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-function sendMsgToClient(ws,type,data){
-    ws.send(JSON.stringify({type:type,data:data}));
+function sendMsgToClient(cID,type,data){
+    clients.get(cID).ws.send(JSON.stringify({type:type,data:data}));
 }
 
-function enterRoom(cID,roomID){
-    let room = rooms.get(roomID);
-    if (!room.includes(cID)){
-        room.push(cID);
-        sendMsgToClient(clients.get(cID),'enteredRoom',null);
+class client{
+	constructor(ws) {
+        this.ws = ws;
+        this.rID = null;
+    }
+}
+
+class room{
+	constructor(hID) {
+        this.hID = hID;
+        this.mIDs = [];
+        this.status = "Waiting";
+    }
+}
+
+function enterRoom(cID,rID){
+    let client = clients.get(cID);
+    let room = rooms.get(rID);
+    client.rID = rID;
+    room.mIDs.push(cID);
+    sendMsgToClient(cID,'enteredRoom',null);
+    for (const mID of room.mIDs){
+        sendMsgToClient(mID,'updateRoom',room);
     }
 }
 
 function exitRoom(cID){
-    for (const [hID,mIDs] of rooms){
-        //broadcast exit to all members?
-        // if (hID==cID){
-        //     return;
-        // }
-        if (mIDs.includes(cID)){
-            mIDs.splice(mIDs.indexOf(cID),1);
-            sendMsgToClient(clients.get(cID),'leftRoom',null);
-            if (mIDs.length==0){
-                rooms.delete(hID);
-            }
-            sendMsgToClient(clients.get(cID),'lobbyStatus',JSON.stringify(Array.from(rooms.entries())));
-            return;
-        }
+    let client = clients.get(cID);
+    if (client.rID==null) return;
+    let room = rooms.get(client.rID);
+    room.mIDs.splice(room.mIDs.indexOf(cID),1);
+    for (const mID of room.mIDs){
+        sendMsgToClient(mID,'updateRoom',room);
     }
+    if (room.mIDs.length==0){
+        rooms.delete(room.hID);
+    }
+    client.rID = null;
+    sendMsgToClient(cID,'leftRoom',null);
+    sendMsgToClient(cID,'lobbyStatus',JSON.stringify(Array.from(rooms.entries())));
+
+}
+
+function startGame(hID){
+    let client = clients.get(cID);
+    if (client.rID==null) return;
+    //TODO
 }
 
 const clients = new Map();
 const rooms = new Map();
 
 wss.on('connection', (ws) => {
-    const clientId = uuidv4(); // Generate a unique ID for the client
-    clients.set(clientId, ws);
-    ws.clientId = clientId;
-    sendMsgToClient(ws,'registerClient',clientId);
+    const cID = uuidv4(); // Generate a unique ID for the client
+    clients.set(cID, new client(ws));
+    ws.cID = cID;
+    sendMsgToClient(cID,'registeredClient',cID);
 
     console.log('Client connected');
 
     ws.on('message', (msg) => {
         let message = JSON.parse(msg);
+        console.log(message.type);
         switch(message.type){
             case 'requestCreateRoom':
-                rooms.set(ws.clientId,[]);
-                enterRoom(ws.clientId,ws.clientId);
+                rooms.set(ws.cID,new room(ws.cID));
+                enterRoom(ws.cID,ws.cID);
                 break;
             case 'requestLobbyStatus':
-                sendMsgToClient(ws,'lobbyStatus',JSON.stringify(Array.from(rooms.entries())));
+                sendMsgToClient(ws.cID,'lobbyStatus',JSON.stringify(Array.from(rooms.entries())));
                 break;
             case 'requestJoinRoom':
-                let roomID = message.data;
-                enterRoom(ws.clientId,roomID);
+                let rID = message.data;
+                enterRoom(ws.cID,rID);
                 break;
             case 'requestExit':
-                exitRoom(ws.clientId);
+                exitRoom(ws.cID);
+                break;
+            case 'requestGameStart':
+                startGame(ws.cID);
                 break;
         }
     });
 
     ws.on('close', () => {
         console.log('Client disconnected');
-        clients.delete(clientId);
+        exitRoom(cID);
+        clients.delete(cID);
     });
 });
 
