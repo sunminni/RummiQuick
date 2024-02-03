@@ -8,8 +8,8 @@ got sick and tired of...
 ##TODOs
 
 ###front
+- [ ] update layout using screenshot
 - [ ] show room status in lobby
-- [ ] disable start button when n=1
 - [ ] select by touch/drag
 - [ ] place by touch
 - [ ] check correctness of board
@@ -25,9 +25,7 @@ got sick and tired of...
 ###back
 - [ ] room status (waiting, playing)
 - [ ] cant join room that is not waiting
-- [ ] start game
-- [ ] shuffle deck
-- [ ] distribute cards
+- [ ] cant join room that is full
 - [ ] check correctness of board
 - [ ] board state
 - [ ] send data to clients

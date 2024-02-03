@@ -41,6 +41,7 @@
 
 #board{
 	background-color:azure;
+	position: absolute;
 	display: none;
 	width: 1000px;
 	height: 600px;
