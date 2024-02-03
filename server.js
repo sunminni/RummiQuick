@@ -33,6 +33,7 @@ class room{
 function enterRoom(cID,rID){
     let client = clients.get(cID);
     let room = rooms.get(rID);
+    if (client == undefined || room == undefined) return;
     client.rID = rID;
     room.mIDs.push(cID);
     sendMsgToClient(cID,'enteredRoom',null);
@@ -46,20 +47,27 @@ function exitRoom(cID){
     if (client.rID==null) return;
     let room = rooms.get(client.rID);
     room.mIDs.splice(room.mIDs.indexOf(cID),1);
-    for (const mID of room.mIDs){
-        sendMsgToClient(mID,'updateRoom',room);
-    }
     if (room.mIDs.length==0){
         rooms.delete(room.hID);
+    }
+    else{
+        if (room.hID==cID){
+            rooms.delete(room.hID);
+            room.hID = room.mIDs[0];
+            rooms.set(room.hID,room);
+        }
+        for (const mID of room.mIDs){
+            clients.get(mID).rID = room.hID;
+            sendMsgToClient(mID,'updateRoom',room);
+        }
     }
     client.rID = null;
     sendMsgToClient(cID,'leftRoom',null);
     sendMsgToClient(cID,'lobbyStatus',JSON.stringify(Array.from(rooms.entries())));
-
 }
 
 function startGame(hID){
-    let client = clients.get(cID);
+    let client = clients.get(hID);
     if (client.rID==null) return;
     //TODO
 }

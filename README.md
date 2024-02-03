@@ -9,6 +9,7 @@ got sick and tired of...
 
 ###front
 - [ ] show room status in lobby
+- [ ] disable start button when n=1
 - [ ] select by touch/drag
 - [ ] place by touch
 - [ ] check correctness of board
@@ -18,10 +19,12 @@ got sick and tired of...
 - [ ] google login
 - [ ] responsive for all screen sizes
 - [ ] sounds
+- [ ] error: try to enter room that dne
+- [ ] error: try to enter room when i dne
 
 ###back
-- [ ] change host when old host exists
 - [ ] room status (waiting, playing)
+- [ ] cant join room that is not waiting
 - [ ] start game
 - [ ] shuffle deck
 - [ ] distribute cards
@@ -32,3 +35,5 @@ got sick and tired of...
 - [ ] check game over condition
 - [ ] timer
 - [ ] wss
+- [ ] error: try to enter room that dne
+- [ ] error: try to enter room when i dne
