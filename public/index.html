@@ -6,14 +6,20 @@
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 <body>
-    <div id="user_id"></div>
-    <button id="create">create</button>
-    <button id="refresh">refresh</button>
-    <button id="exit">exit</button>
-    <button id="start">start</button>
-    <div id="members"></div>
-    <div id="rooms"></div>
-    <div id="board"></div>
-    <div id="hand"></div>
+    <div id="lobby">
+        <div id="lobby_header">
+            <div id="user_id"></div>
+            <button id="create">+</button>
+            <button id="refresh">↻</button>
+        </div>
+        <div id="rooms"></div>
+    </div>
+    <div id="game_room">
+        <button id="exit">exit</button>
+        <button id="start">start</button>
+        <div id="members"></div>
+        <div id="board"></div>
+        <div id="hand"></div>
+    </div>
 </body>
 </html>

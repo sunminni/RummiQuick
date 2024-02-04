@@ -2,6 +2,8 @@ const COLORS = ['red', 'blue', 'orange', 'black'];
 const currentLocation = window.location;
 const socket = new WebSocket(`ws://${currentLocation.hostname}:${currentLocation.port}`);
 var myID = null;
+const lobby_div = document.getElementById('lobby');
+const game_room_div = document.getElementById('game_room');
 const id_div = document.getElementById('user_id');
 const hand_div = document.getElementById('hand');
 const board_div = document.getElementById('board');
@@ -13,25 +15,13 @@ const rooms_div = document.getElementById('rooms');
 const members_div = document.getElementById('members');
 
 function showRoom(){
-	rooms_div.style.display = 'none';
-	refresh_btn.style.display = 'none';
-	create_btn.style.display = 'none';
-	start_btn.style.display = 'inline-block';
-	exit_btn.style.display = 'inline-block';
-	hand_div.style.display = 'block';
-	board_div.style.display = 'block';
-	members_div.style.display = 'block';
+	lobby_div.style.display = 'none';
+	game_room_div.style.display = 'block';
 }
 
 function showLobby(){
-	rooms_div.style.display = 'block';
-	refresh_btn.style.display = 'inline-block';
-	create_btn.style.display = 'inline-block';
-	start_btn.style.display = 'none';
-	exit_btn.style.display = 'none';
-	hand_div.style.display = 'none';
-	board_div.style.display = 'none';
-	members_div.style.display = 'none';
+	lobby_div.style.display = 'block';
+	game_room_div.style.display = 'none';
 }
 
 function updateRoom(room){
@@ -112,9 +102,10 @@ socket.addEventListener('open', (event) => {
 // Event listener for incoming messages from the server
 socket.addEventListener('message', (event) => {
 	const message = JSON.parse(event.data);
+	console.log(message.type);
 	switch(message.type){
 		case 'registeredClient':
-			id_div.innerHTML = "ID: "+UUID2ID(message.data);
+			id_div.innerHTML = "My ID: "+UUID2ID(message.data);
 			myID = message.data;
 			break;
 		case 'enteredRoom':
