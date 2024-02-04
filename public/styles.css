@@ -72,10 +72,9 @@
 	padding-left: 2vw;
 }
 
-#create{
+#create, #exit{
 	height: 100px;
 	width: 100px;
-	background-color: orange;
 	color: white;
 	border: none;
 	font-size: 60px;
@@ -87,10 +86,18 @@
 	border-radius: 100px;
 }
 
-#refresh{
+#create{
+	background-color: orange;
+}
+
+#exit{
+	background-color: crimson;
+}
+
+#refresh, #start{
 	height: 50px;
 	width: 50px;
-	background-color: lightgreen;
+	background-color: #37bd4d;
 	color: white;
 	border: none;
 	font-size: 30px;
@@ -121,5 +128,5 @@
 }
 
 button:disabled{
-	opacity: 0.6;
+	opacity: 0;
 }
