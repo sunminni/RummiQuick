@@ -8,6 +8,10 @@ got sick and tired of...
 ##TODOs
 
 ###front
+- [ ] sort buttons
+- [ ] draw tile button
+- [ ] return tiles button
+- [ ] confirm button
 - [ ] update layout using screenshot
 - [ ] show room status in lobby
 - [ ] select by touch/drag

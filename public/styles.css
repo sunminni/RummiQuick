@@ -31,33 +31,65 @@
 }
 
 #members{
-	width: 1000px;
-	height: 50px;
+	width: 15vw;
+	height: 100vh;
+	background-color:darkblue;
 }
 
 .member{
-	width: 250px;
-	height: 50px;
+	width: 15vw;
+	height: 25vh;
 	text-align: center;
-	line-height: 50px;
-	display: inline-block;
+	line-height: 25vh;
+	display: block;
+	position: absolute;
 }
-.member.host{
+.member.host .profile{
 	background-color: #bbf;
 }
 
+.profile{
+	background-color: #fff;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 50px;
+	transform: translate(-50%,-50%);
+	left: 50%;
+	top: 50%;
+	position: absolute;
+}
+
+.member.me{
+	bottom:0;
+	left:0;
+}
+
 #hand{
-	background-color: wheat;
-	width: 1000px;
-	height: 200px;
+	background-color: rgb(235, 183, 88);
+	width: 70vw;
+	height: 25vh;
+	left: 15vw;
+	bottom: 0;
 	position: absolute;
 }
 
 #board{
-	background-color:azure;
+	background-color:darkblue;
 	position: absolute;
-	width: 1000px;
-	height: 600px;
+	width: 70vw;
+	height: 75vh;
+	left: 15vw;
+	top:0;
+}
+
+#controls{
+	background-color:darkblue;
+	position: absolute;
+	width: 15vw;
+	height: 100vh;
+	left: 85vw;
+	top:0;
 }
 
 #lobby_header{
@@ -73,41 +105,90 @@
 }
 
 #create, #exit{
-	height: 100px;
-	width: 100px;
+	height: 11vw;
+	width: 11vw;
 	color: white;
 	border: none;
-	font-size: 60px;
-	line-height: 100px;
+	line-height: 11vw;
 	z-index: 2;
 	position: absolute;
-	right: 20px;
-	bottom: 20px;
-	border-radius: 100px;
+	right: 2vw;
+	bottom: 2vw;
+	border-radius: 11vw;
 }
 
 #create{
 	background-color: orange;
+	font-size: 8vw;
 }
 
 #exit{
 	background-color: crimson;
+	font-size: 3vw;
 }
 
 #refresh, #start{
-	height: 50px;
-	width: 50px;
+	height: 5vw;
+	width: 5vw;
 	background-color: #37bd4d;
 	color: white;
 	border: none;
-	font-size: 30px;
-	line-height: 50px;
+	font-size: 2vw;
+	line-height: 5vw;
 	z-index: 2;
 	position: absolute;
-	right: 20px;
-	bottom: 130px;
-	border-radius: 50px;
+	right: 2vw;
+	bottom: 15vw;
+	border-radius: 5vw;
 }
+
+#refresh{
+	font-size: 4vw;
+}
+
+#sortNumber, #sortColor{
+	height: 7vw;
+	width: 7vw;
+	background-color: darkcyan;
+	color: white;
+	border: none;
+	font-size: 2vw;
+	line-height: 5vw;
+	z-index: 2;
+	position: absolute;
+	right: 4vw;
+	bottom: 30vw;
+	border-radius: 7vw;
+}
+
+#sortColor{
+	bottom: 23vw;
+
+}
+
+#sortBG{
+	height: 14vw;
+	width: 7vw;
+	background-color: darkcyan;
+	position: absolute;
+	border: none;
+	right: 4vw;
+	bottom: 23vw;
+	z-index: 1;
+	border-radius: 7vw;
+}
+
+#sortLine{
+	background-color: white;
+	position: absolute;
+	width: 5vw;
+	height: 0.2vw;
+	bottom: 29.9vw;
+	right: 5vw;
+	z-index: 3;
+}
+
+
 
 #rooms{
 	width: 100vw;

@@ -30,7 +30,11 @@ function updateRoom(room){
 		let member_div = document.createElement('div');
 		member_div.classList.add('member');
 		if (mID == room.hID) member_div.classList.add('host');
-		member_div.innerHTML = UUID2ID(mID);
+		if (mID == myID) member_div.classList.add('me');
+		let profile_div = document.createElement('div');
+		profile_div.classList.add('profile');
+		profile_div.innerHTML = UUID2ID(mID);
+		member_div.append(profile_div);
 		members_div.append(member_div);
 	}
 
