@@ -1,7 +1,7 @@
-const COLORS = ['red', 'blue', 'orange', 'black'];
 const currentLocation = window.location;
 const socket = new WebSocket(`ws://${currentLocation.hostname}:${currentLocation.port}`);
 var myID = null;
+var myHand = new Hand();
 const lobby_div = document.getElementById('lobby');
 const game_room_div = document.getElementById('game_room');
 const id_div = document.getElementById('user_id');
@@ -13,6 +13,9 @@ const exit_btn = document.getElementById('exit');
 const start_btn = document.getElementById('start');
 const rooms_div = document.getElementById('rooms');
 const members_div = document.getElementById('members');
+const sortNumber_btn = document.getElementById('sortNumber');
+const sortColor_btn = document.getElementById('sortColor');
+
 
 function showRoom(){
 	lobby_div.style.display = 'none';
@@ -39,7 +42,7 @@ function updateRoom(room){
 	}
 
 	start_btn.disabled = myID!=room.hID || room.mIDs.length < 2;
-	console.log(room);
+	// console.log(room);
 }
 
 function createTileDiv(num,color){
@@ -50,10 +53,10 @@ function createTileDiv(num,color){
 	return div;
 }
 
-function drawHand(hand){
+function drawHand(){
 	hand_div.innerHTML = '';
 	let left = 0;
-	for (const group of hand.groups) {
+	for (const group of myHand.groups) {
 		for (const t of group) {
 			let tile_div = createTileDiv(t.num,t.color);
 			tile_div.style.left = left + 'px';
@@ -62,7 +65,7 @@ function drawHand(hand){
 		}
 		left += 10;
 	}
-	for (const t of hand.tiles) {
+	for (const t of myHand.tiles) {
 		let tile_div = createTileDiv(t.num,t.color);
 		tile_div.style.left = left + 'px';
 		hand_div.append(tile_div);
@@ -70,9 +73,9 @@ function drawHand(hand){
 	}
 }
 
-function updateHand(hand){
-	drawHand(hand);
-	console.log(hand);
+function updateHand(){
+	drawHand();
+	// console.log(hand);
 }
 
 function sendMsgToServer(type,data){
@@ -99,6 +102,19 @@ start_btn.onclick = function(e){
 	sendMsgToServer('requestGameStart',null);
 }
 
+sortNumber_btn.onclick = function(e){
+	console.log(myHand);
+	myHand.sortByNum();
+	updateHand();
+}
+
+sortColor_btn.onclick = function(e){
+	console.log(myHand);
+	myHand.sortByColor();
+	updateHand();
+}
+
+
 socket.addEventListener('open', (event) => {
 	sendMsgToServer('requestLobbyStatus',null);
 });
@@ -106,7 +122,7 @@ socket.addEventListener('open', (event) => {
 // Event listener for incoming messages from the server
 socket.addEventListener('message', (event) => {
 	const message = JSON.parse(event.data);
-	console.log(message.type);
+	// console.log(message.type);
 	switch(message.type){
 		case 'registeredClient':
 			id_div.innerHTML = "My ID: "+UUID2ID(message.data);
@@ -136,7 +152,8 @@ socket.addEventListener('message', (event) => {
 			}
 			break;
 		case 'updateHand':
-			updateHand(message.data);
+			myHand.tiles = message.data.tiles;
+			updateHand();
 			break;
 	}
 });
